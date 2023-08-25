@@ -5,9 +5,9 @@ touch project/Makefile
 mkdir project/srcs/requirements
 touch project/srcs/docker-compose.yml
 touch project/srcs/.env
-echo "DOMAIN_NAME=<your_nickname>.42.fr" > project/srcs/.env
-echo "CERT_=./requirements/tools/<your_nickname>.42.fr.crt" >> project/srcs/.env
-echo "KEY_=./requirements/tools/<your_nickname>.42.fr.key" >> project/srcs/.env
+echo "DOMAIN_NAME=gmasid.42.fr" > project/srcs/.env
+echo "CERT_=./requirements/tools/gmasid.42.fr.crt" >> project/srcs/.env
+echo "KEY_=./requirements/tools/gmasid.42.fr.key" >> project/srcs/.env
 echo "DB_NAME=wordpress" >> project/srcs/.env
 echo "DB_ROOT=rootpass" >> project/srcs/.env
 echo "DB_USER=wpuser" >> project/srcs/.env
