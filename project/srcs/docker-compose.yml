@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: requirements/nginx/Dockerfile
     container_name: nginx
-#     depends_on:
-#       - wordpress
+    # depends_on:
+      # - wordpress
     ports:
       - "443:443"
     volumes:
@@ -15,3 +15,17 @@ services:
       - ./requirements/nginx/tools:/etc/nginx/ssl/
       - /home/${USER}/trash/simple_docker_nginx_html/public/html:/var/www/
     restart: always
+  mariadb:
+    build:
+      context: .
+      dockerfile: requirements/mariadb/Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_ROOT: ${DB_ROOT}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    restart: always
+      
