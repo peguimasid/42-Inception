@@ -4,7 +4,6 @@ all:
 	@printf "Launch configuration ${name}...\n"
 	@bash srcs/requirements/wordpress/tools/make_dir.sh
 	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
-	@docker exec -i mariadb mysql -u mysql --password=wppass wordpress < srcs/requirements/mariadb/conf/backup.sql
 
 build:
 	@printf "Building configuration ${name}...\n"
