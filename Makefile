@@ -17,7 +17,6 @@ down:
 re: down
 	@printf "Rebuild configuration ${name}...\n"
 	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
-	@docker exec -i mariadb mysql -u mysql --password=wppass wordpress < srcs/requirements/mariadb/conf/backup.sql
 
 clean: down
 	@printf "Cleaning configuration ${name}...\n"
