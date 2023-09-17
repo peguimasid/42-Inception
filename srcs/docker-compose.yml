@@ -2,10 +2,11 @@ version: '3'
 
 services:
   nginx:
-    build:
-      context: .
-      dockerfile: requirements/nginx/Dockerfile
     container_name: nginx
+    build:
+      context: requirements/nginx
+      dockerfile: Dockerfile
+    env_file: .env
     depends_on:
       - wordpress
     ports:
@@ -13,60 +14,54 @@ services:
     networks:
       - inception
     volumes:
-      - ./requirements/nginx/conf/:/etc/nginx/http.d/
-      - ./requirements/nginx/tools:/etc/nginx/ssl/
-      - wp-volume:/var/www/
+      - wordpress:/var/www/wordpress
     restart: always
 
   mariadb:
-    build:
-      context: .
-      dockerfile: requirements/mariadb/Dockerfile
-      args:
-        DB_NAME: ${DB_NAME}
-        DB_ROOT: ${DB_ROOT}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
     container_name: mariadb
-    volumes:
-      - db-volume:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    build:
+      context: requirements/mariadb
+      dockerfile: Dockerfile
+    env_file: .env
+    expose:
+      - "3306"
     networks:
       - inception
+    volumes:
+      - mariadb:/var/lib/mysql
     restart: always
 
   wordpress:
-    build:
-      context: .
-      dockerfile: requirements/wordpress/Dockerfile
-      args:
-        DB_NAME: ${DB_NAME}
-        DB_USER: ${DB_USER}
-        DB_PASS: ${DB_PASS}
     container_name: wordpress
+    build:
+      context: requirements/wordpress
+      dockerfile: Dockerfile
+    env_file: .env
     depends_on:
       - mariadb
-    restart: always
     networks:
       - inception
     volumes:
-      - wp-volume:/var/www
+      - wordpress:/var/www/wordpress
+    restart: always
+    expose:
+      - "9000"
 
 volumes:
-  wp-volume:
+  wordpress:
+    driver: local
     driver_opts:
       o: bind
       type: none
       device: /home/${USER}/data/wordpress
-
-  db-volume:
+  mariadb:
+    driver: local
     driver_opts:
       o: bind
       type: none
       device: /home/${USER}/data/mariadb
 
 networks:
-    inception:
-        driver: bridge
+  inception:
+    driver: bridge
       

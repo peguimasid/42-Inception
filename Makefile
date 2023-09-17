@@ -3,26 +3,17 @@ name = inception
 all:
 	@printf "Launch configuration ${name}...\n"
 	@bash srcs/requirements/wordpress/tools/make_dir.sh
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
+	@docker-compose -f ./srcs/docker-compose.yml up -d --build
 
-build:
-	@printf "Building configuration ${name}...\n"
-	@bash srcs/requirements/wordpress/tools/make_dir.sh
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
+re: clean all
 
-down:
-	@printf "Stopping configuration ${name}...\n"
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
+stop:
+	@printf "Stopping containers ${name}...\n"
+	@docker-compose -f ./srcs/docker-compose.yml stop
 
-re: down
-	@printf "Rebuild configuration ${name}...\n"
-	@docker-compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
-
-clean: down
+clean: stop
 	@printf "Cleaning configuration ${name}...\n"
-	@docker system prune -a
-	@sudo rm -rf ~/data/wordpress/*
-	@sudo rm -rf ~/data/mariadb/*
+	@docker-compose -f ./srcs/docker-compose.yml down -v
 
 fclean:
 	@printf "Total clean of all configurations docker\n"
@@ -33,4 +24,4 @@ fclean:
 	@sudo rm -rf ~/data/wordpress/*
 	@sudo rm -rf ~/data/mariadb/*
 
-.PHONY	: all build down re clean fclean
+.PHONY	: all build stop re clean fclean
