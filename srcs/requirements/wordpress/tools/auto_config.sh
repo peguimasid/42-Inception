@@ -2,6 +2,7 @@
 
 if [ ! -e /var/www/wordpress/wp-config.php ]; then
   sleep 10
+  
   mv /wp-config.php /var/www/wordpress
   sed -i -r "s/db1/$SQL_DATABASE/1"   /var/www/wordpress/wp-config.php
   sed -i -r "s/user/$SQL_USER/1"      /var/www/wordpress/wp-config.php
