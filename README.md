@@ -3,7 +3,7 @@
 
 ---
 
-- Status: Finished
+- Status: Finished ✅
 - Result: 100%
 
 ---
